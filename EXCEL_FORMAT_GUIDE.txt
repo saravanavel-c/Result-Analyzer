@@ -25,17 +25,7 @@ The system uses a regex pattern to extract course codes from column headers. The
 
 ## Example Header Row Format
 Row 1 should contain headers like:
-| SNO | REG NO | NAME | CS432 - DATA STRUCTURES | EC284 - DIGITAL SIGNAL PROCESSING | CS573 - DATABASE MANAGEMENT SYSTEMS | ... |
-
-## Course Codes in Database
-The system currently has these courses in the database:
-- CS432 (DATA STRUCTURES) - Theory
-- EC284 (DIGITAL SIGNAL PROCESSING) - Theory
-- CS573 (DATABASE MANAGEMENT SYSTEMS) - Theory
-- VA057 (SOCIAL SKILLS) - Extra
-- CS231 (THEORY OF COMPUTATIONS) - Extra
-- MAT264 (ENGINEERING MATHS II) - Extra
-- CS456 (OPERATING SYSTEMS) - Practical
+| SNO | REG NO | NAME | 22CSE432 - DATA STRUCTURES | 22CSE234 - DIGITAL SIGNAL PROCESSING | 18CSE573 - DATABASE MANAGEMENT SYSTEMS | ... |
 
 ## Special Mark Values
 - Empty cells or "0" = Student scored 0 marks
@@ -44,7 +34,7 @@ The system currently has these courses in the database:
 
 ## Student Data
 Starting from Row 2, enter student data:
-- Column B: Registration numbers (e.g., 91815901, 91815902, etc.)
+- Column B: Registration numbers (e.g., 2303717710421047, etc.)
 - Column C: Student names
 - Columns D+: Marks for each course
 
