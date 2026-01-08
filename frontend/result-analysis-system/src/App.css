@@ -1,42 +1,466 @@
-#root {
-  max-width: 1280px;
+.app {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.navigation button {
+  padding: 10px 20px;
+  background-color: #ecf0f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.navigation button.active {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Upload Section */
+.upload-section {
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section h2 {
+  color: #333;
+  margin-top: 0;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.upload-area {
+  border: 2px dashed #3498db;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.upload-area:hover {
+  background-color: #e3f2fd;
+  border-color: #2980b9;
+}
+
+.upload-label {
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.upload-label:hover {
+  background-color: #2980b9;
+}
+
+#file-upload {
+  display: none;
+}
+
+.upload-area p {
+  color: #7f8c8d;
+  margin-top: 15px;
+}
+
+.uploaded-file {
+  color: #27ae60;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.download-btn, .delete-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.download-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.download-btn:hover {
+  background-color: #219653;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Course Section */
+.course-section {
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.course-header h2 {
+  color: #333;
+  margin: 0;
+}
+
+.add-course-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.add-course-btn:hover {
+  background-color: #219653;
+}
+
+/* Course List */
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.course-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.course-header-row h3 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.delete-course-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.delete-course-btn:hover {
+  background-color: #c0392b;
+}
+
+.course-card p {
+  margin: 8px 0;
+  color: #34495e;
+}
+
+.failed-students ul {
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.failed-students li {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* Student Section */
+.student-section {
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-section h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+.student-list-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.student-list-item {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.student-list-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.student-header {
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.student-basic-info h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.student-basic-info p {
+  margin: 5px 0;
+  color: #34495e;
+}
+
+.expand-indicator {
+  font-size: 20px;
+  color: #3498db;
+}
+
+.student-details {
+  padding: 0 20px 20px 20px;
+  border-top: 1px solid #eee;
+}
+
+.student-stats {
+  display: flex;
+  gap: 30px;
+  margin: 15px 0;
+}
+
+.student-stats p {
+  margin: 5px 0;
+  color: #34495e;
+}
+
+.student-details h4 {
+  color: #2c3e50;
+  margin: 15px 0 10px 0;
+}
+
+.student-details table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.student-details table th,
+.student-details table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.student-details table th {
+  background-color: #f2f2f2;
+}
+
+.student-details ul {
+  padding-left: 20px;
+}
+
+.student-details li {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* Dialog Styles */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dialog h2 {
+  margin-top: 0;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.dialog p {
+  color: #34495e;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #34495e;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.dialog-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dialog-actions button[type="button"] {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.dialog-actions button[type="button"]:hover {
+  background-color: #7f8c8d;
+}
+
+.dialog-actions button[type="submit"] {
+  background-color: #27ae60;
+  color: white;
+}
+
+.dialog-actions button[type="submit"]:hover {
+  background-color: #219653;
+}
+
+.dialog-actions button.danger {
+  background-color: #e74c3c;
+}
+
+.dialog-actions button.danger:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .course-header {
+    flex-direction: column;
+    gap: 15px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  .upload-actions {
+    flex-direction: column;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  
+  .course-list,
+  .student-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .dialog {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .dialog-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .dialog-actions button {
+    width: 100%;
+  }
 }

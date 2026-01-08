@@ -70,8 +70,8 @@ const upload = multer({ storage });
 function extractCourseCode(cellValue) {
   if (!cellValue) return null;
   const str = cellValue.toString().trim();
-  // Updated regex to match patterns like 22SVA4XX (digits + letters + alphanumeric mix)
-  const match = str.match(/\b\d{2}[A-Z]{3}[A-Z0-9]{2,4}\b/);
+  // Updated regex to match patterns like CS432 or 22SVA4XX (letters/numbers + alphanumeric mix)
+  const match = str.match(/\b[A-Z]{2,4}\d{2,4}[A-Z0-9]*\b|\b\d{2}[A-Z]{3}[A-Z0-9]{2,4}\b/);
   return match ? match[0] : null;
 }
 
@@ -99,12 +99,23 @@ app.post("/courses", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
     
+    // Validate credits - allow decimal values up to one decimal place
+    let creditsValue = 3; // default value
+    if (credits !== undefined && credits !== null) {
+      creditsValue = parseFloat(credits);
+      if (isNaN(creditsValue) || creditsValue < 0) {
+        return res.status(400).json({ error: "Credits must be a valid positive number" });
+      }
+      // Round to one decimal place
+      creditsValue = Math.round(creditsValue * 10) / 10;
+    }
+    
     const existing = await Course.findOne({ code });
     if (existing) {
       return res.status(400).json({ error: "Course code already exists" });
     }
     
-    const course = new Course({ code, name, faculty, type, credits: credits});
+    const course = new Course({ code, name, faculty, type, credits: creditsValue });
     await course.save();
     res.json({ message: "Course added successfully!", course });
   } catch (err) {
@@ -869,9 +880,21 @@ app.get("/students/:regNo", async (req, res) => {
     const student = await Student.findOne({ regNo: req.params.regNo });
     if (!student) return res.status(404).json({ error: "Student not found" });
     
+    // Convert Map to object for proper JSON serialization
+    const coursesObject = {};
+    if (student.courses) {
+      for (const [code, marks] of student.courses.entries()) {
+        coursesObject[code] = {
+          UT1: marks.UT1 !== undefined ? marks.UT1 : null,
+          UT2: marks.UT2 !== undefined ? marks.UT2 : null,
+          SEMESTER: marks.SEMESTER !== undefined ? marks.SEMESTER : null
+        };
+      }
+    }
+    
     res.json({
       regNo: student.regNo, name: student.name,
-      courses: student.courses ? Object.fromEntries(student.courses) : {},
+      courses: coursesObject,
       failedCourses: student.failedCourses,
       GPA: parseFloat(student.GPA.toFixed(2))
     });
@@ -883,10 +906,38 @@ app.get("/students/:regNo", async (req, res) => {
 
 app.delete("/students", async (req, res) => {
   try {
+    // Delete all students from database
     const result = await Student.deleteMany({});
+    
+    // Delete all uploaded files
+    const uploadsDir = "uploads";
+    if (fs.existsSync(uploadsDir)) {
+      const files = fs.readdirSync(uploadsDir);
+      for (const file of files) {
+        fs.unlinkSync(path.join(uploadsDir, file));
+      }
+    }
+    
     res.json({ message: "All students deleted", count: result.deletedCount });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete students" });
+  }
+});
+
+// Update the courses delete route to handle both single and all courses
+app.delete("/courses/:id", async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const result = await Course.findByIdAndDelete(courseId);
+    
+    if (!result) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+    
+    res.json({ message: "Course deleted successfully", course: result });
+  } catch (err) {
+    console.error("Error deleting course:", err);
+    res.status(500).json({ error: "Failed to delete course" });
   }
 });
 

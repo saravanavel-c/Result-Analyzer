@@ -1,0 +1,77 @@
+# Excel File Format Guide for Result Analyzer
+
+## Required Excel File Structure
+
+The Result Analyzer system requires Excel files to be formatted in a specific way to properly recognize course codes and process student marks.
+
+## Sheet Structure
+Your Excel file should contain separate sheets for:
+- "UT 1" or "UT1" - Unit Test 1 results
+- "UT 2" or "UT2" - Unit Test 2 results  
+- "SEMESTER" or "SEM" - Semester exam results
+
+## Column Headers Format
+The system uses a regex pattern to extract course codes from column headers. The pattern looks for formats like:
+- 22SVA4XX (digits + letters + alphanumeric mix)
+- CS432 (letters + digits)
+- EC284 (letters + digits)
+- MAT264 (letters + digits)
+
+## Required Columns
+- Column A: SNO (Serial Number)
+- Column B: REG NO (Student Registration Number)
+- Column C: NAME (Student Name)
+- Columns D+ : Course columns with course codes in the header
+
+## Example Header Row Format
+Row 1 should contain headers like:
+| SNO | REG NO | NAME | CS432 - DATA STRUCTURES | EC284 - DIGITAL SIGNAL PROCESSING | CS573 - DATABASE MANAGEMENT SYSTEMS | ... |
+
+## Course Codes in Database
+The system currently has these courses in the database:
+- CS432 (DATA STRUCTURES) - Theory
+- EC284 (DIGITAL SIGNAL PROCESSING) - Theory
+- CS573 (DATABASE MANAGEMENT SYSTEMS) - Theory
+- VA057 (SOCIAL SKILLS) - Extra
+- CS231 (THEORY OF COMPUTATIONS) - Extra
+- MAT264 (ENGINEERING MATHS II) - Extra
+- CS456 (OPERATING SYSTEMS) - Practical
+
+## Special Mark Values
+- Empty cells or "0" = Student scored 0 marks
+- "-" (hyphen) = Student not enrolled in this course
+- "a" or "A" or "absent" = Student was absent, recorded as 0 marks
+
+## Student Data
+Starting from Row 2, enter student data:
+- Column B: Registration numbers (e.g., 91815901, 91815902, etc.)
+- Column C: Student names
+- Columns D+: Marks for each course
+
+## Example Row Data
+| 1 | 91815901 | AASHISH M | 75 | 82 | 78 | ... |
+| 2 | 91815902 | BARANI S | 80 | 75 | 85 | ... |
+
+## Important Notes
+1. Course codes in Excel headers must exactly match those in the database
+2. For UT1 and UT2 sheets: Only theory and extra courses are processed
+3. For SEMESTER sheet: All course types (theory, practical, extra) are processed
+4. Marks for UT1/UT2 below 30 are considered failures
+5. Marks for SEMESTER below 5 are considered failures (grade points)
+6. The system calculates GPA automatically for semester results
+
+## Sample File Structure
+Sheet: "UT 1"
+Row 1: SNO | REG NO | NAME | CS432 - DATA STRUCTURES | EC284 - DIGITAL SIGNAL PROCESSING | ...
+Row 2: 1 | 91815901 | AASHISH M | 75 | 82 | ...
+Row 3: 2 | 91815902 | BARANI S | 80 | 75 | ...
+
+Sheet: "UT 2" 
+Row 1: SNO | REG NO | NAME | CS432 - DATA STRUCTURES | EC284 - DIGITAL SIGNAL PROCESSING | ...
+Row 2: 1 | 91815901 | AASHISH M | 78 | 85 | ...
+Row 3: 2 | 91815902 | BARANI S | 82 | 78 | ...
+
+Sheet: "SEMESTER"
+Row 1: SNO | REG NO | NAME | CS432 - DATA STRUCTURES | EC284 - DIGITAL SIGNAL PROCESSING | CS456 - OPERATING SYSTEMS | ...
+Row 2: 1 | 91815901 | AASHISH M | 8.5 | 7.8 | 9.0 | ...
+Row 3: 2 | 91815902 | BARANI S | 8.2 | 8.0 | 8.5 | ...
